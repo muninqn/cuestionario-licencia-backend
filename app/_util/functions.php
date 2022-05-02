@@ -11,13 +11,9 @@ require_once("../app/files/FilesController.php");
 require_once("../app/tipoPregunta/TipoPreguntaController.php");
 require_once("../app/cuestionario/CuestionarioController.php");
 require_once("../app/modulo/ModuloController.php");
-require_once("../app/aptomedico/AptoMedicoController.php");
-require_once("../app/cursos/CursosController.php");
-require_once("../app/tramite/TramiteController.php");
-require_once("../app/cenat/CenatController.php");
-require_once("../app/tasamunicipal/TasaMunicipalController.php");
-require_once("../app/vehiculo/VehiculoController.php");
-require_once("../app/turno/TurnoController.php");
+require_once("../app/opcion/OpcionController.php");
+require_once("../app/pregunta/PreguntaController.php");
+require_once("../app/respuesta/RespuestaController.php");
 
 function getArrayNotFound($message)
 {
@@ -68,51 +64,28 @@ function crearRespuestaSolicitud($code, $status, $message, $data = null)
 function obtenerController($controllerName)
 {
     switch (strtolower($controllerName)) {
-        case 'tramite': //controlador de tramites
-            $controller = new TramiteController();
+        case 'cuestionario': //controlador de tramites
+            $controller = new CuestionarioController();
             break;
 
-        case 'usuario': //controlador de usuarios
-            $controller = new UsuarioController();
+        case 'modulo': //controlador de usuarios
+            $controller = new ModuloController();
             break;
 
-        case 'eleccion': //controlador de elecciones
-            $controller = new EleccionController();
+        case 'opcion': //controlador de elecciones
+            $controller = new OpcionController();
             break;
 
-        case 'tipo': //controlador de turnos
-            $controller = new TipoController();
+        case 'pregunta': //controlador de turnos
+            $controller = new PreguntaController();
             break;
 
-        case 'autorizacion': //controlador de autorizaciones
-            $controller = new AutorizacionController();
-            break;
-        case 'vehiculo': //controlador de vehiculo
-            $controller = new VehiculoController();
+        case 'respuesta': //controlador de autorizaciones
+            $controller = new RespuestaController();
             break;
 
-        case 'aptomedico': //controlador de aptoMedico
-            $controller = new AptoMedicoController();
-            break;
-
-        case 'cursos': //controlador de cursos
-            $controller = new CursosController();
-            break;
-
-        case 'cenat': //controlador de cenat
-            $controller = new CenatController();
-            break;
-
-        case 'tasamunicipal': //controlador de tasaMunicipal
-            $controller = new TasaMunicipalController();
-            break;
-
-        case 'turno': //controlador de turnos
-            $controller = new TurnoController();
-            break;
-
-        case 'files': //controlador de turnos
-            $controller = new FilesController();
+        case 'tipoPregunta': //controlador de vehiculo
+            $controller = new TipoPreguntaController();
             break;
 
         default: //no se encontro controlador

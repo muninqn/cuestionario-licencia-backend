@@ -42,6 +42,8 @@ class AuthController
                         break;
                     }
                 }
+                //pruebaAdministrador
+                // $dataUser['perfilUsuario']=3;
             }
         } catch (Exception $e) {
             echo $e->getMessage();

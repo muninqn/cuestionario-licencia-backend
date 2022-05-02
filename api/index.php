@@ -7,7 +7,7 @@ require_once "../app/_connection/BaseDatos.php";
 //Utilizamos auth controller para corroborar que exista el usuario
 require_once "../app/auth/AuthController.php";
 //Usamos el servicio de tramite para obtener el id del tramite activo por parte del usuario
-require_once "../app/tramite/TramiteService.php";
+// require_once "../app/tramite/TramiteService.php";
 
 //definimos encabezados para permitir acceso de todos lados, definir el tipo de contenido y los metodos HTTP permitidos
 header("Access-Control-Allow-Origin: *");
