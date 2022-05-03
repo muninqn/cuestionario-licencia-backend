@@ -64,4 +64,31 @@ class RespuestaService
         $database->connect();
         return $database->ejecutarSqlUpdateDelete($sqlQuery, $bindParams);
     }
+
+    public function listarRespuestaUsuario($params)
+    {
+        $sqlQuery = "SELECT * FROM FDPyR_respuesta 
+        LEFT JOIN FDPyR_adjunto ON FDPyR_respuesta.adjunto_id = FDPyR_adjunto.id_adjunto
+        WHERE usuario_id=? AND FDPyR_respuesta.deleted_at IS NULL";
+
+        $bindParams = [$params['usuario_id']];
+
+        $response = [];
+
+        $database = new BaseDatos();
+        $database->connect();
+
+        if ($sqlStatement = odbc_prepare($database->getConn(), $sqlQuery)) {
+            if ($pudoEjecutar = odbc_execute($sqlStatement, $bindParams)) {
+                while ($unaTupla = odbc_fetch_array($sqlStatement)) {
+                    // $unaTupla["Nombre"] = htmlspecialchars(iconv("iso-8859-1", "utf-8", $unaTupla["Nombre"]));
+                    // $unaTupla["DomicilioReal"] = htmlspecialchars(iconv("iso-8859-1", "utf-8", $unaTupla["DomicilioReal"]));
+                    // $unaTupla["DomicilioLegal"] = htmlspecialchars(iconv("iso-8859-1", "utf-8", $unaTupla["DomicilioLegal"]));
+                    array_push($response, $unaTupla);
+                    // $response = $unaTupla;
+                }
+            }
+        };
+        return $response;
+    }
 }
