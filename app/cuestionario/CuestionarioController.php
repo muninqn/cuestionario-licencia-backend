@@ -60,7 +60,7 @@ class CuestionarioController extends BaseController
                         $response = crearRespuestaSolicitud(400, "error", "Ocurrió un error al intentar modificar el cuestionario.");
                     }
                 } else {
-                    $response = crearRespuestaSolicitud(400, "error", "Ocurrió un error al intentar eliminar el cuestionario.");
+                    $response = crearRespuestaSolicitud(400, "error", "Ocurrió un error al intentar actualizar el cuestionario. Falta especificar algun parametro.");
                 }
             } else {
                 //$response['headers'] = ['HTTP/1.1 400 Bad Request'];
@@ -86,7 +86,7 @@ class CuestionarioController extends BaseController
                         $response = crearRespuestaSolicitud(400, "error", "Ocurrió un error al intentar eliminar el cuestionario.");
                     }
                 } else {
-                    $response = crearRespuestaSolicitud(400, "error", "Ocurrió un error al intentar eliminar el cuestionario.");
+                    $response = crearRespuestaSolicitud(400, "error", "Ocurrió un error al intentar eliminar el cuestionario. Falta especificar algun parametro.");
                 }
             } else {
                 //$response['headers'] = ['HTTP/1.1 400 Bad Request'];
@@ -95,6 +95,36 @@ class CuestionarioController extends BaseController
         } else {
             $response = crearRespuestaSolicitud(401, "error", "No tiene permisos para ejecutar la consulta.");
             $response['headers'] = ['HTTP/1.1 401 Unauthorized'];
+        }
+        return $response;
+    }
+
+    private function listarDatosCuestionario($params)
+    {
+        if ($this->getRequestMethod() == "POST") {
+            // var_dump($this->getPerfilUsuario());
+            if ($this->getPerfilUsuario() == 3) {
+                if (isset($params['id_cuestionario'])) {
+
+                    $objService = new CuestionarioService;
+                    $listadoTramites = $objService->listarDatosCuestionario($params);
+
+                    if (count($listadoTramites) > 0) {
+                        $response = crearRespuestaSolicitud(200, "OK", "Datos recuperados exitosamente.", $listadoTramites);
+                    } else {
+                        $response = crearRespuestaSolicitud(200, "OK", "No se encontraron tramites para listar");
+                    }
+                    $response['headers'] = ['HTTP/1.1 200 OK'];
+                } else {
+                    $response = crearRespuestaSolicitud(400, "error", "Falto especificar algun parametro.");
+                }
+            } else {
+                $response = crearRespuestaSolicitud(401, "error", "No tiene permisos para ejecutar la consulta.");
+                //$response['headers'] = ['HTTP/1.1 401 Unauthorized'];
+            }
+        } else {
+            $response = crearRespuestaSolicitud(400, "error", "Metodo HTTP equivocado");
+            //$response['headers'] = ['HTTP/1.1 400 Bad Request'];
         }
         return $response;
     }
