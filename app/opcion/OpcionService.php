@@ -65,4 +65,31 @@ class OpcionService
         $database->connect();
         return $database->ejecutarSqlUpdateDelete($sqlQuery, $bindParams);
     }
+
+    public function listarOpcionesPregunta($params)
+    {
+        $sqlQuery = "SELECT id_opcion, pregunta_id, opcion, orden, puntaje, opcion_correcta, adjunto_id, tipo_adjunto, path_adjunto, tipo_archivo FROM FDPyR_opcion 
+        LEFT JOIN FDPyR_adjunto ON FDPyR_opcion.adjunto_id = FDPyR_adjunto.id_adjunto
+        WHERE pregunta_id=? AND FDPyR_opcion.deleted_at IS NULL";
+
+        $bindParams = [$params['pregunta_id']];
+
+        $response = [];
+
+        $database = new BaseDatos();
+        $database->connect();
+
+        if ($sqlStatement = odbc_prepare($database->getConn(), $sqlQuery)) {
+            if ($pudoEjecutar = odbc_execute($sqlStatement, $bindParams)) {
+                while ($unaTupla = odbc_fetch_array($sqlStatement)) {
+                    // $unaTupla["Nombre"] = htmlspecialchars(iconv("iso-8859-1", "utf-8", $unaTupla["Nombre"]));
+                    // $unaTupla["DomicilioReal"] = htmlspecialchars(iconv("iso-8859-1", "utf-8", $unaTupla["DomicilioReal"]));
+                    // $unaTupla["DomicilioLegal"] = htmlspecialchars(iconv("iso-8859-1", "utf-8", $unaTupla["DomicilioLegal"]));
+                    array_push($response, $unaTupla);
+                    // $response = $unaTupla;
+                }
+            }
+        };
+        return $response;
+    }
 }
