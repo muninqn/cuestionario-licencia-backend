@@ -101,4 +101,34 @@ class PreguntaController extends BaseController
         }
         return $response;
     }
+
+    private function listarPreguntasModulo($params)
+    {
+        if ($this->getRequestMethod() == "POST") {
+            // var_dump($this->getPerfilUsuario());
+            if ($this->getPerfilUsuario() == 3) {
+                if (isset($params['modulo_id'])) {
+
+                    $objService = new PreguntaService;
+                    $listadoTramites = $objService->listarPreguntasModulo($params);
+
+                    if (count($listadoTramites) > 0) {
+                        $response = crearRespuestaSolicitud(200, "OK", "Datos recuperados exitosamente.", $listadoTramites);
+                    } else {
+                        $response = crearRespuestaSolicitud(200, "OK", "No se encontraron tramites para listar");
+                    }
+                    $response['headers'] = ['HTTP/1.1 200 OK'];
+                } else {
+                    $response = crearRespuestaSolicitud(400, "error", "Falto especificar algun parametro.");
+                }
+            } else {
+                $response = crearRespuestaSolicitud(401, "error", "No tiene permisos para ejecutar la consulta.");
+                //$response['headers'] = ['HTTP/1.1 401 Unauthorized'];
+            }
+        } else {
+            $response = crearRespuestaSolicitud(400, "error", "Metodo HTTP equivocado");
+            //$response['headers'] = ['HTTP/1.1 400 Bad Request'];
+        }
+        return $response;
+    }
 }
