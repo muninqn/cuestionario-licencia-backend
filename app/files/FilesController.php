@@ -1,6 +1,7 @@
 <?php
 
 //
+require_once("../app/base/BaseController.php");
 require_once("../app/files/FilesService.php");
 
 
